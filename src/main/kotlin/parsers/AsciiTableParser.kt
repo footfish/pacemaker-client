@@ -48,12 +48,14 @@ class AsciiTableParser:Parser() {
       println("not found")
     }
   }
+	
   override fun renderActivities(activities:Collection<Activity>?) {
     if (activities != null)
     {
       if (!activities.isEmpty())
       {
-        val activityList = ArrayList(activities)
+        val activityList = ArrayList(activities).sortedWith(compareBy({ it.type }, { it.location } ))
+		    
         val asciiTableAware = CollectionASCIITableAware<Activity>(activityList,"id","type", "location", "distance")
         System.out.println(ASCIITable.getInstance().getTable(asciiTableAware))
       }
@@ -64,6 +66,7 @@ class AsciiTableParser:Parser() {
       println("not found")
     }
   }
+	
   override fun renderLocations(locations:List<Location>?) {
     if (locations != null)
     {

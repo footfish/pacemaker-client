@@ -27,6 +27,8 @@ internal interface PacemakerInterface {
   fun registerUser(@Body User:User):Call<User>
   @GET("/users/{id}/activities")
   fun getActivities(@Path("id") id:String):Call<List<Activity>>
+  @GET("/users/{id}/activities/{type}")
+  fun getActivitiesType(@Path("id") id:String, type:String):Call<List<Activity>>
   @POST("/users/{id}/activities")
   fun addActivity(@Path("id") id:String, @Body activity:Activity):Call<Activity>
   @DELETE("/users/{id}/activities")
@@ -104,8 +106,18 @@ class PacemakerAPI(url:String) {
     return activities
   }
 	
-  fun listActivities(userId:String, sortBy:String):List<Activity>? {
-    return null
+	  fun getActivitiesType(id:String, type: String):Collection<Activity>? {
+    var activities:Collection<Activity>? = null
+    try
+    {
+      val call = pacemakerInterface.getActivitiesType(id,type)
+      val response = call.execute()
+      activities = response.body()
+    }
+    catch (e:Exception) {
+      println(e.message)
+    }
+    return activities
   }
 	
   fun getActivity(userId:String, activityId:String):Activity? {
