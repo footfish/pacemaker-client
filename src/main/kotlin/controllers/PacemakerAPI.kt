@@ -28,7 +28,7 @@ internal interface PacemakerInterface {
   @GET("/users/{id}/activities")
   fun getActivities(@Path("id") id:String):Call<List<Activity>>
   @GET("/users/{id}/activities/{type}")
-  fun getActivitiesType(@Path("id") id:String, type:String):Call<List<Activity>>
+  fun getActivitiesType(@Path("id") id:String, @Path("type") type:String):Call<List<Activity>>
   @POST("/users/{id}/activities")
   fun addActivity(@Path("id") id:String, @Body activity:Activity):Call<Activity>
   @DELETE("/users/{id}/activities")

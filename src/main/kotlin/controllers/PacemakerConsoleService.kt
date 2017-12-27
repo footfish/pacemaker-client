@@ -19,24 +19,6 @@ private	object consoleUser {
 	  fun loggedIn(): Boolean { if (id == null) return false else return true }
 	}
 
-//	private var loggedInUser:User? = null //to be removed 
-	
-/*	 fun getLoggedInUser():String {  // move to consoleUser
-		//val result: String? = loggedInUser?.email
-		val result: String? = consoleUser.id
-
-		if (result  != null)
-    {
-     return result 
-    }
-    else
-    {
-      return "$"
-    }
-  }
-*/
-	
-	
   @Command(description = "Register: Create an account for a new user")
   fun register(@Param(name = "first name") firstName:String,
                @Param(name = "last name") lastName:String, @Param(name = "email") email:String,
@@ -127,11 +109,11 @@ private	object consoleUser {
     }
   }
 	
-  @Command(description = "ActivityReport: List all activities for logged in user, sorted alphabetically by type")
+  @Command(description = "Activity Report: List all activities for logged in user, sorted alphabetically by type")
   fun activityReport() {
    if (consoleUser.loggedIn())
     {
-      console.renderActivities(paceApi.getActivities(consoleUser.id!!))
+      console.renderActivities(paceApi.getActivities(consoleUser.id!!)?.sortedWith(compareBy({ it.type }, { it.location } )))
     }
     else
     {
@@ -143,16 +125,8 @@ private	object consoleUser {
   fun activityReport(@Param(name = "byType: type") type:String) {
    if (consoleUser.loggedIn())
     {
-    /*  val reportActivities = ArrayList<E>()
-      val usersActivities = paceApi.getActivities(user.get().getId())
-      usersActivities.forEach({ a-> if (a.getType().equals(type))
-                               reportActivities.add(a) })
-      reportActivities.sort({ a1, a2-> if (a1.getDistance() >= a2.getDistance())
-                             return@reportActivities.sort -1
-                             else
-                             return@reportActivities.sort 1 })
-      console.renderActivities(reportActivities)*/
-    }
+      console.renderActivities(paceApi.getActivitiesType(consoleUser.id!!, type)?.sortedWith(compareBy({ it.distance })))
+	    }
     else
     {
       console.println("Not permitted, log in please!")

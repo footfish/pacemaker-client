@@ -54,8 +54,8 @@ class AsciiTableParser:Parser() {
     {
       if (!activities.isEmpty())
       {
-        val activityList = ArrayList(activities).sortedWith(compareBy({ it.type }, { it.location } ))
-		    
+//        val activityList = ArrayList(activities).sortedWith(compareBy({ it.type }, { it.location } ))
+		    val activityList = ArrayList(activities)
         val asciiTableAware = CollectionASCIITableAware<Activity>(activityList,"id","type", "location", "distance")
         System.out.println(ASCIITable.getInstance().getTable(asciiTableAware))
       }
