@@ -150,7 +150,22 @@ private	object consoleUser {
 }
 	
   @Command(description = "Follow Friend: Follow a specific friend")
-  fun follow(@Param(name = "email") email:String) {}
+  fun follow(@Param(name = "email") email:String) {
+   if (consoleUser.loggedIn())
+      {
+      paceApi.createFriend(consoleUser.id!!, email)
+	    }
+    else
+     {
+      console.println("Not permitted, log in please!")
+     }
+  }
+	  
+	  
+	  
+		}
+	
+	
 	
   @Command(description = "List Friends: List all of the friends of the logged in user")
   fun listFriends() {}
@@ -177,4 +192,3 @@ private	object consoleUser {
   fun locationLeaderBoard(@Param(name = "location") message:String) {}
   // Outstanding Commands
   // Todo
-}

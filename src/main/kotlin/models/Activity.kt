@@ -3,12 +3,10 @@ package models
 import java.util.UUID
 
 data class Activity(
-    var type: String = "",
-    var location: String = "",
-    var distance: Float = 0.0f)
-     {
-    var id: String = UUID.randomUUID().toString()		//can't call optional parameters from Java, hence this line moved from constructor. 
-    var route: MutableList<Location> = ArrayList()
-}
-
+    val type: String = "",
+    val location: String = "",
+    val distance: Float = 0.0f,
+	  val id: String = UUID.randomUUID().toString(),
+	  val route: MutableList<Location> = ArrayList()
+	)   
 
