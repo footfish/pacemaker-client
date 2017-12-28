@@ -159,17 +159,22 @@ private	object consoleUser {
      {
       console.println("Not permitted, log in please!")
      }
-  }
-	  
-	  
-	  
-		}
-	
-	
+  }	  
+
 	
   @Command(description = "List Friends: List all of the friends of the logged in user")
-  fun listFriends() {}
-	
+  fun listFriends() {
+	    if (consoleUser.loggedIn())
+      {
+	      console.renderUsers(paceApi.getFriends(consoleUser.id!!))
+      }
+		else
+		 {
+      console.println("Not permitted, log in please!")
+     }
+  }
+
+}	
   @Command(description = "Friend Activity Report: List all activities of specific friend, sorted alphabetically by type)")
   fun friendActivityReport(@Param(name = "email") email:String) {}
 	
