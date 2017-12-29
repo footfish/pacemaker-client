@@ -52,6 +52,8 @@ internal interface PacemakerInterface {
   fun sendMessage(@Path("id") id:String, @Path("email")friendEmail:String, @Body message:Message):Call<String>
   @GET("/users/{id}/messages")
   fun getMessages(@Path("id") id:String):Call<List<Message>>
+  @POST("/users/{id}/messages/")
+  fun broadcastMessage(@Path("id") id:String, @Body message:Message):Call<String>
 }
 
 class PacemakerAPI(url:String) {
@@ -300,5 +302,16 @@ class PacemakerAPI(url:String) {
     }
 		return messages
 	}
+	
+	fun broadcastMessage(id:String, message: String) {
+    try
+    {
+     val call = pacemakerInterface.broadcastMessage(id, Message(message, id))
+     call.execute()
+    }
+    catch (e:Exception) {
+      println(e.message)
+    }
+	}	
 	
 }

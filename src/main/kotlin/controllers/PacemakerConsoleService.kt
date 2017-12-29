@@ -218,28 +218,40 @@ private	object consoleUser {
    if (consoleUser.loggedIn())
     {
         console.renderMessages(paceApi.getMessages(consoleUser.id!!))
-    }
+    } 
     else
     {
       console.println("Not permitted, log in please!")
     } 
 	  
-	}		
+	}
+	
+  @Command(description = "Message All Friends: send a message to all friends")
+  fun messageAllFriends(@Param(name = "message") message:String) {
+   if (consoleUser.loggedIn())
+    {
+      paceApi.broadcastMessage(consoleUser.id!!, message)
+    } 
+    else
+    {
+      console.println("Not permitted, log in please!")
+    } 
+	  
+	  
+		}
+	
+			
 }		
 
 	
   // Good Commands
 
 
-  @Command(description = "List Messages: List all messages for the logged in user")
-  fun listMessages() {}
   @Command(description = "Distance Leader Board: list summary distances of all friends, sorted longest to shortest")
   fun distanceLeaderBoard() {}
   // Excellent Commands
   @Command(description = "Distance Leader Board: distance leader board refined by type")
   fun distanceLeaderBoardByType(@Param(name = "byType: type") type:String) {}
-  @Command(description = "Message All Friends: send a message to all friends")
-  fun messageAllFriends(@Param(name = "message") message:String) {}
   @Command(description = "Location Leader Board: list sorted summary distances of all friends in named location")
   fun locationLeaderBoard(@Param(name = "location") message:String) {}
   // Outstanding Commands
