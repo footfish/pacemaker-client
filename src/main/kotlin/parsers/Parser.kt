@@ -2,6 +2,7 @@ package parsers
 import models.Activity
 import models.Location
 import models.User
+import models.Message
 
 open class Parser {
   open fun println(s:String) {
@@ -21,5 +22,8 @@ open class Parser {
   }
   open fun renderLocations(locations:List<Location>?) {
     System.out.println(locations.toString())
+  }
+  open fun renderMessages(messages:Collection<Message>?) {
+    System.out.println(messages.toString())
   }
 }

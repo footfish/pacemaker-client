@@ -212,10 +212,20 @@ private	object consoleUser {
       console.println("Not permitted, log in please!")
     } 
   }	  
+
+  @Command(description = "List Messages: List all messages for the logged in user")
+  fun listMessages() {		  
+   if (consoleUser.loggedIn())
+    {
+        console.renderMessages(paceApi.getMessages(consoleUser.id!!))
+    }
+    else
+    {
+      console.println("Not permitted, log in please!")
+    } 
 	  
-	  
-		}		
-		
+	}		
+}		
 
 	
   // Good Commands

@@ -7,6 +7,7 @@ import java.util.Arrays
 import models.Activity
 import models.Location
 import models.User
+import models.Message
 
 class AsciiTableParser:Parser() {
 	
@@ -28,7 +29,7 @@ class AsciiTableParser:Parser() {
       {
         val userList = ArrayList<User>(users)
         val asciiTableAware = CollectionASCIITableAware<User>(userList, "id","firstname","lastname", "email")
-        System.out.println(ASCIITable.getInstance().getTable(asciiTableAware))
+        println(ASCIITable.getInstance().getTable(asciiTableAware))
       }
       println("ok")
     }
@@ -54,10 +55,9 @@ class AsciiTableParser:Parser() {
     {
       if (!activities.isEmpty())
       {
-//        val activityList = ArrayList(activities).sortedWith(compareBy({ it.type }, { it.location } ))
 		    val activityList = ArrayList(activities)
         val asciiTableAware = CollectionASCIITableAware<Activity>(activityList,"id","type", "location", "distance")
-        System.out.println(ASCIITable.getInstance().getTable(asciiTableAware))
+        println(ASCIITable.getInstance().getTable(asciiTableAware))
       }
       println("ok")
     }
@@ -73,9 +73,27 @@ class AsciiTableParser:Parser() {
       if (!locations.isEmpty())
       {
         val asciiTableAware = CollectionASCIITableAware<Location>(locations,"id","latitude", "longitude")
-        System.out.println(ASCIITable.getInstance().getTable(asciiTableAware))
+        println(ASCIITable.getInstance().getTable(asciiTableAware))
       }
       println("ok")
+    }
+    else
+    {
+      println("not found")
+    }
+  }
+	
+	  override fun renderMessages(messages:Collection<Message>?) {
+    if (messages != null)
+    {
+      if (!messages.isEmpty())
+      {
+		    val messageList = ArrayList(messages)
+        val asciiTableAware = CollectionASCIITableAware<Message>(messageList,"message", "from", "read" ,"id")
+        println(ASCIITable.getInstance().getTable(asciiTableAware))
+      } else {
+		  println("no messages for you")
+			}
     }
     else
     {

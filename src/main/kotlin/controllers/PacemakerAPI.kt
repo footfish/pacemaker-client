@@ -50,7 +50,8 @@ internal interface PacemakerInterface {
                   @Body location:Location):Call<Location>
   @POST("/users/{id}/messages/{email}")
   fun sendMessage(@Path("id") id:String, @Path("email")friendEmail:String, @Body message:Message):Call<String>
-
+  @GET("/users/{id}/messages")
+  fun getMessages(@Path("id") id:String):Call<List<Message>>
 }
 
 class PacemakerAPI(url:String) {
@@ -285,4 +286,19 @@ class PacemakerAPI(url:String) {
       println(e.message)
     }
 	}
+	
+	fun getMessages(id:String):Collection<Message>? {
+    var messages:Collection<Message>? = null
+    try
+    {
+     val call = pacemakerInterface.getMessages(id)
+     val response = call.execute()
+     messages = response.body()
+    }
+    catch (e:Exception) {
+      println(e.message)
+    }
+		return messages
+	}
+	
 }
