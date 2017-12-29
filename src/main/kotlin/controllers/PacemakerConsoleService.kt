@@ -199,15 +199,28 @@ private	object consoleUser {
       console.println("Not permitted, log in please!")
      }	  
 		}
-	
-		
-}	
-	
-  // Good Commands
 
   @Command(description = "Message Friend: send a message to a friend")
   fun messageFriend(@Param(name = "email") email:String,
-                    @Param(name = "message") message:String) {}
+                    @Param(name = "message") message:String) {
+   if (consoleUser.loggedIn())
+    {
+      paceApi.sendMessage(consoleUser.id!!, email, message)
+    }
+    else
+    {
+      console.println("Not permitted, log in please!")
+    } 
+  }	  
+	  
+	  
+		}		
+		
+
+	
+  // Good Commands
+
+
   @Command(description = "List Messages: List all messages for the logged in user")
   fun listMessages() {}
   @Command(description = "Distance Leader Board: list summary distances of all friends, sorted longest to shortest")

@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import models.Activity
 import models.Location
 import models.User
+import models.Message
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -47,6 +48,9 @@ internal interface PacemakerInterface {
   @POST("/users/{id}/activities/{activityId}/locations")
   fun addLocation(@Path("id") id:String, @Path("activityId") activityId:String,
                   @Body location:Location):Call<Location>
+  @POST("/users/{id}/messages/{email}")
+  fun sendMessage(@Path("id") id:String, @Path("email")friendEmail:String, @Body message:Message):Call<String>
+
 }
 
 class PacemakerAPI(url:String) {
@@ -270,4 +274,15 @@ class PacemakerAPI(url:String) {
     }
     return user
   }
+	
+	fun sendMessage(id:String, email:String, message: String) {
+    try
+    {
+     val call = pacemakerInterface.sendMessage(id, URLEncoder.encode(email, "UTF-8"), Message(message, id))
+     call.execute()
+    }
+    catch (e:Exception) {
+      println(e.message)
+    }
+	}
 }
