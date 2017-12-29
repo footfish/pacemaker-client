@@ -154,6 +154,7 @@ private	object consoleUser {
    if (consoleUser.loggedIn())
       {
       paceApi.createFriend(consoleUser.id!!, email)
+		  console.renderUsers(paceApi.getFriends(consoleUser.id!!))
 	    }
     else
      {
@@ -174,13 +175,24 @@ private	object consoleUser {
      }
   }
 
+  @Command(description = "Unfollow Friends: Stop following a friend")
+  fun unfollowFriend(@Param(name = "email") email:String) {
+   if (consoleUser.loggedIn())
+      {
+      paceApi.deleteFriend(consoleUser.id!!, email)
+		  console.renderUsers(paceApi.getFriends(consoleUser.id!!))
+	    }
+    else
+     {
+      console.println("Not permitted, log in please!")
+     }	  
+		}	
 }	
   @Command(description = "Friend Activity Report: List all activities of specific friend, sorted alphabetically by type)")
   fun friendActivityReport(@Param(name = "email") email:String) {}
 	
   // Good Commands
-  @Command(description = "Unfollow Friends: Stop following a friend")
-  fun unfollowFriend() {}
+
   @Command(description = "Message Friend: send a message to a friend")
   fun messageFriend(@Param(name = "email") email:String,
                     @Param(name = "message") message:String) {}

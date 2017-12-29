@@ -13,6 +13,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import java.net.URLEncoder
 
 internal interface PacemakerInterface {
   @GET("/users")
@@ -35,6 +36,8 @@ internal interface PacemakerInterface {
   fun getFriends(@Path("id") id:String):Call<List<User>>
   @POST("/users/{id}/friends/{email}")
   fun createFriend(@Path("id") id:String, @Path("email")friendEmail:String):Call<String>
+  @DELETE("/users/{id}/friends/{email}")
+  fun deleteFriend(@Path("id") id:String, @Path("email")friendEmail:String):Call<String>
   @DELETE("/users/{id}/activities")
   fun deleteActivities(@Path("id") id:String):Call<String>
   @GET("/users/{id}/activities/{activityId}")
@@ -114,7 +117,18 @@ class PacemakerAPI(url:String) {
 	fun createFriend(id:String, email:String) {
     try
     {
-      val call = pacemakerInterface.createFriend(id, email)
+      val call = pacemakerInterface.createFriend(id, URLEncoder.encode(email, "UTF-8"))
+      call.execute()
+    }
+    catch (e:Exception) {
+      println(e.message)
+    }
+  }
+
+	fun deleteFriend(id:String, email:String) {
+    try
+    {
+      val call = pacemakerInterface.deleteFriend(id, URLEncoder.encode(email, "UTF-8"))
       call.execute()
     }
     catch (e:Exception) {
@@ -122,6 +136,7 @@ class PacemakerAPI(url:String) {
     }
   }
 	
+		
   fun getActivities(id:String):Collection<Activity>? {
     var activities:Collection<Activity>? = null
     try
