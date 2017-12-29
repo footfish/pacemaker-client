@@ -38,6 +38,8 @@ internal interface PacemakerInterface {
   fun createFriend(@Path("id") id:String, @Path("email")friendEmail:String):Call<String>
   @DELETE("/users/{id}/friends/{email}")
   fun deleteFriend(@Path("id") id:String, @Path("email")friendEmail:String):Call<String>
+  @GET("/users/{id}/friends/{email}/activities")
+  fun getFriendActivities(@Path("id") id:String, @Path("email")friendEmail:String):Call<List<Activity>>
   @DELETE("/users/{id}/activities")
   fun deleteActivities(@Path("id") id:String):Call<String>
   @GET("/users/{id}/activities/{activityId}")
@@ -136,7 +138,22 @@ class PacemakerAPI(url:String) {
     }
   }
 	
-		
+  fun getFriendActivities(id:String, email: String):Collection<Activity>? {
+    var activities:Collection<Activity>? = null
+    try
+    {
+      val call = pacemakerInterface.getFriendActivities(id, URLEncoder.encode(email, "UTF-8"))
+      val response = call.execute()
+      activities = response.body()
+    }
+    catch (e:Exception) {
+      println(e.message)
+    }
+    return activities
+  }
+
+	
+			
   fun getActivities(id:String):Collection<Activity>? {
     var activities:Collection<Activity>? = null
     try

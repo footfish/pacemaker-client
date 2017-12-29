@@ -186,10 +186,22 @@ private	object consoleUser {
      {
       console.println("Not permitted, log in please!")
      }	  
-		}	
-}	
+		}
+	
   @Command(description = "Friend Activity Report: List all activities of specific friend, sorted alphabetically by type)")
-  fun friendActivityReport(@Param(name = "email") email:String) {}
+  fun friendActivityReport(@Param(name = "email") email:String) {
+   if (consoleUser.loggedIn())
+      {
+      console.renderActivities(paceApi.getFriendActivities(consoleUser.id!!, email)?.sortedWith(compareBy({ it.type }, { it.location })))
+	    }
+    else
+     {
+      console.println("Not permitted, log in please!")
+     }	  
+		}
+	
+		
+}	
 	
   // Good Commands
 
