@@ -329,4 +329,19 @@ class PacemakerAPI(url:String) {
 	 return leaders
    }
 	
+	fun getLeaderBoardType(id:String, type: String):Collection<Leader>? {
+		var leaders:MutableList<Leader>? = ArrayList()
+		val friendlist = getFriends(id)
+		  if (friendlist != null) {
+		    for (friend in friendlist){
+		      val activitieslist = getFriendActivities(id, friend.email)
+		          if (activitieslist != null){
+					       leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { if(it.type == type) it.distance.toDouble() else 0.0 }))
+				      }
+		    }
+	   }
+	 return leaders
+   }	
+	
+	
 }
