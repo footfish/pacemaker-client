@@ -240,15 +240,29 @@ private	object consoleUser {
 	  
 		}
 	
+	@Command(description = "Distance Leader Board: list summary distances of all friends, sorted longest to shortest")
+  fun distanceLeaderBoard() {
+	    if (consoleUser.loggedIn())
+      {
+		  console.println("Summary distances of all friends, sorted longest to shortest:")
+      console.renderLeaders(paceApi.getLeaderBoard(consoleUser.id!!)?.sortedWith(compareBy({ -it.distance })))
+      }
+		else
+		 {
+      console.println("Not permitted, log in please!")
+     }
+  }
+		
+	}
+	
 			
-}		
+		
 
 	
   // Good Commands
 
 
-  @Command(description = "Distance Leader Board: list summary distances of all friends, sorted longest to shortest")
-  fun distanceLeaderBoard() {}
+
   // Excellent Commands
   @Command(description = "Distance Leader Board: distance leader board refined by type")
   fun distanceLeaderBoardByType(@Param(name = "byType: type") type:String) {}

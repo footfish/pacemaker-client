@@ -5,6 +5,7 @@ import models.Activity
 import models.Location
 import models.User
 import models.Message
+import models.Leader
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -312,6 +313,20 @@ class PacemakerAPI(url:String) {
     catch (e:Exception) {
       println(e.message)
     }
-	}	
+	}
+	
+	fun getLeaderBoard(id:String):Collection<Leader>? {
+		var leaders:MutableList<Leader>? = ArrayList()
+		val friendlist = getFriends(id)
+		  if (friendlist != null) {
+		    for (friend in friendlist){
+		      val activitieslist = getFriendActivities(id, friend.email)
+		          if (activitieslist != null){
+					       leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { it.distance.toDouble() }))
+				      }
+		    }
+	   }
+	 return leaders
+   }
 	
 }

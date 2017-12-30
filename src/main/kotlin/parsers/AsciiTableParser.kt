@@ -8,6 +8,7 @@ import models.Activity
 import models.Location
 import models.User
 import models.Message
+import models.Leader
 
 class AsciiTableParser:Parser() {
 	
@@ -100,4 +101,23 @@ class AsciiTableParser:Parser() {
       println("not found")
     }
   }
+	
+  override fun renderLeaders(leaders:Collection<Leader>?) {
+    if (leaders != null)
+    {
+      if (!leaders.isEmpty())
+      {
+        val leadersList = ArrayList(leaders)
+        val asciiTableAware = CollectionASCIITableAware<Leader>(leadersList,"firstname","lastname", "email", "distance")
+        println(ASCIITable.getInstance().getTable(asciiTableAware))
+      }
+      println("ok")
+    }
+    else
+    {
+      println("not found")
+    }
+  }	
+	
+	
 }

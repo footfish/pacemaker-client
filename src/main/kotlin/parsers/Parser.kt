@@ -3,6 +3,7 @@ import models.Activity
 import models.Location
 import models.User
 import models.Message
+import models.Leader
 
 open class Parser {
   open fun println(s:String) {
@@ -25,5 +26,8 @@ open class Parser {
   }
   open fun renderMessages(messages:Collection<Message>?) {
     System.out.println(messages.toString())
+  }
+  open fun renderLeaders(leaders:Collection<Leader>?) {
+    System.out.println(leaders.toString())
   }
 }
