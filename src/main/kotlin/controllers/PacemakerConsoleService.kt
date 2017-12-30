@@ -264,26 +264,21 @@ private	object consoleUser {
 		 {
       console.println("Not permitted, log in please!")
      }
-	  
-	  
 		}
-	
-			
-	}
-	
-			
-		
-
-	
-  // Good Commands
-
-
-
-  // Excellent Commands
-  @Command(description = "Distance Leader Board: distance leader board refined by type")
-  fun distanceLeaderBoardByType(@Param(name = "byType: type") type:String) {}
 
   @Command(description = "Location Leader Board: list sorted summary distances of all friends in named location")
-  fun locationLeaderBoard(@Param(name = "location") message:String) {}
-  // Outstanding Commands
-  // Todo
+  fun locationLeaderBoard(@Param(name = "location") locale:String) {
+	    if (consoleUser.loggedIn())
+      {
+		  console.println("Summary distances of all friends for location '" + locale + "':")
+      console.renderLeaders(paceApi.getLeaderBoardLocated(consoleUser.id!!, locale)?.sortedWith(compareBy({ -it.distance })))
+      }
+		else
+		 {
+      console.println("Not permitted, log in please!")
+     }
+	
+   }
+	}
+	
+	
