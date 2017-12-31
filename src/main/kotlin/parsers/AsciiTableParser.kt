@@ -73,14 +73,14 @@ class AsciiTableParser:Parser() {
     {
       if (!locations.isEmpty())
       {
-        val asciiTableAware = CollectionASCIITableAware<Location>(locations,"id","latitude", "longitude")
+        val asciiTableAware = CollectionASCIITableAware<Location>(locations,"latitude", "longitude")
         println(ASCIITable.getInstance().getTable(asciiTableAware))
       }
       println("ok")
     }
     else
     {
-      println("not found")
+      println("no locations found")
     }
   }
 	

@@ -140,11 +140,11 @@ private	object consoleUser {
      val activity = paceApi.getActivity(consoleUser.id!!, id)
      if (activity != null)
        {
-        // 	console.renderLocations(activity.get().route);
-       }
-     }
-	   else
-	   {
+       console.renderLocations(activity.route);
+       } else {
+		   console.println("Activity not found")
+		   }
+ 	   } else {
      console.println("Not permitted, log in please!")
 	   }
 }
