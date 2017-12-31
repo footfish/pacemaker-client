@@ -15,6 +15,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.net.URLEncoder
 
 internal interface PacemakerInterface {
@@ -29,9 +30,7 @@ internal interface PacemakerInterface {
   @POST("/users")
   fun registerUser(@Body User:User):Call<User>
   @GET("/users/{id}/activities")
-  fun getActivities(@Path("id") id:String):Call<List<Activity>>
-  @GET("/users/{id}/activities/{type}")
-  fun getActivitiesType(@Path("id") id:String, @Path("type") type:String):Call<List<Activity>>
+  fun getActivities(@Path("id") id:String, @Query("type") type:String? = null):Call<List<Activity>>
   @POST("/users/{id}/activities")
   fun addActivity(@Path("id") id:String, @Body activity:Activity):Call<Activity>
   @GET("/users/{id}/friends/")
@@ -160,27 +159,11 @@ class PacemakerAPI(url:String) {
     return activities
   }
 
-	
-			
-  fun getActivities(id:String):Collection<Activity>? {
+  fun getActivities(id:String, type: String? = null):Collection<Activity>? {
     var activities:Collection<Activity>? = null
     try
     {
-      val call = pacemakerInterface.getActivities(id)
-      val response = call.execute()
-      activities = response.body()
-    }
-    catch (e:Exception) {
-      println(e.message)
-    }
-    return activities
-  }
-	
-	  fun getActivitiesType(id:String, type: String):Collection<Activity>? {
-    var activities:Collection<Activity>? = null
-    try
-    {
-      val call = pacemakerInterface.getActivitiesType(id,type)
+      val call = pacemakerInterface.getActivities(id,type)
       val response = call.execute()
       activities = response.body()
     }

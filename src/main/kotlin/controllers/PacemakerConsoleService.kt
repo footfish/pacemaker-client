@@ -125,7 +125,7 @@ private	object consoleUser {
   fun activityReport(@Param(name = "byType: type") type:String) {
    if (consoleUser.loggedIn())
     {
-      console.renderActivities(paceApi.getActivitiesType(consoleUser.id!!, type)?.sortedWith(compareBy({ it.distance })))
+      console.renderActivities(paceApi.getActivities(consoleUser.id!!, type)?.sortedWith(compareBy({ it.distance })))
 	    }
     else
     {
