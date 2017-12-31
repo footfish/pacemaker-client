@@ -258,7 +258,7 @@ private	object consoleUser {
 	    if (consoleUser.loggedIn())
       {
 		  console.println("Summary distances of all friends for type '" + type + "':")
-      console.renderLeaders(paceApi.getLeaderBoardType(consoleUser.id!!, type)?.sortedWith(compareBy({ -it.distance })))
+      console.renderLeaders(paceApi.getLeaderBoard(consoleUser.id!!, type)?.sortedWith(compareBy({ -it.distance })))
       }
 		else
 		 {
@@ -271,7 +271,7 @@ private	object consoleUser {
 	    if (consoleUser.loggedIn())
       {
 		  console.println("Summary distances of all friends for location '" + locale + "':")
-      console.renderLeaders(paceApi.getLeaderBoardLocated(consoleUser.id!!, locale)?.sortedWith(compareBy({ -it.distance })))
+      console.renderLeaders(paceApi.getLeaderBoard(consoleUser.id!!, locale = locale)?.sortedWith(compareBy({ -it.distance })))
       }
 		else
 		 {

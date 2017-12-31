@@ -298,47 +298,32 @@ class PacemakerAPI(url:String) {
     }
 	}
 	
-	fun getLeaderBoard(id:String):Collection<Leader>? {
+	fun getLeaderBoard(id:String, type: String?=null, locale: String?=null):Collection<Leader>? {
 		var leaders:MutableList<Leader>? = ArrayList()
 		val friendlist = getFriends(id)
 		  if (friendlist != null) {
 		    for (friend in friendlist){
 		      val activitieslist = getFriendActivities(id, friend.email)
 		          if (activitieslist != null){
-					       leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { it.distance.toDouble() }))
+		             if (type == null && locale == null) {
+	                 leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { it.distance.toDouble() }))
+		             }
+		             else if (type != null && locale == null) {
+   					       leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { if(it.type == type) it.distance.toDouble() else 0.0 }))
+                 }
+		             else if (type == null && locale != null) {
+		               leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { if(it.location == locale) it.distance.toDouble() else 0.0 }))
+                 }
+		             else if (type != null && locale != null) {
+		               leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { if(it.location == locale && it.type == type) it.distance.toDouble() else 0.0 }))
+                 }
 				      }
 		    }
 	   }
 	 return leaders
    }
-	
-	fun getLeaderBoardType(id:String, type: String):Collection<Leader>? {
-		var leaders:MutableList<Leader>? = ArrayList()
-		val friendlist = getFriends(id)
-		  if (friendlist != null) {
-		    for (friend in friendlist){
-		      val activitieslist = getFriendActivities(id, friend.email)
-		          if (activitieslist != null){
-					       leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { if(it.type == type) it.distance.toDouble() else 0.0 }))
-				      }
-		    }
-	   }
-	 return leaders
-   }	
 
-	fun getLeaderBoardLocated(id:String, locale: String):Collection<Leader>? {
-		var leaders:MutableList<Leader>? = ArrayList()
-		val friendlist = getFriends(id)
-		  if (friendlist != null) {
-		    for (friend in friendlist){
-		      val activitieslist = getFriendActivities(id, friend.email)
-		          if (activitieslist != null){
-					       leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { if(it.location == locale) it.distance.toDouble() else 0.0 }))
-				      }
-		    }
-	   }
-	 return leaders
-   }	
+
 	
 		
 	
