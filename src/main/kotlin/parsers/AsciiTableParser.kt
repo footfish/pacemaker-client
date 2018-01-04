@@ -20,7 +20,7 @@ class AsciiTableParser:Parser() {
     }
     else
     {
-      println("not found")
+      println("Strange! User not found")
     }
   }
   override fun renderUsers(users:Collection<User>?) {
@@ -29,14 +29,33 @@ class AsciiTableParser:Parser() {
       if (!users.isEmpty())
       {
         val userList = ArrayList<User>(users)
-        val asciiTableAware = CollectionASCIITableAware<User>(userList, "id","firstname","lastname", "email")
+        val asciiTableAware = CollectionASCIITableAware<User>(userList, "id","firstname","lastname", "email", "disabled", "admin")
         println(ASCIITable.getInstance().getTable(asciiTableAware))
-      }
-      println("ok")
+      } else {
+        println("No users")
+	    }
     }
     else
     {
-      println("not found")
+      println("Strange! - User not found")
+    }
+  }
+	
+	  override fun renderFriendUsers(users:Collection<User>?) {
+    if (users != null)
+    {
+      if (!users.isEmpty())
+      {
+        val userList = ArrayList<User>(users)
+        val asciiTableAware = CollectionASCIITableAware<User>(userList,"firstname","lastname", "email" )
+        println(ASCIITable.getInstance().getTable(asciiTableAware))
+      } else {
+        println("No friends (yet!)")
+      }
+    }
+    else
+    {
+      println("Strange! - User not found")
     }
   }
 	
@@ -59,8 +78,9 @@ class AsciiTableParser:Parser() {
 		    val activityList = ArrayList(activities)
         val asciiTableAware = CollectionASCIITableAware<Activity>(activityList,"id","type", "location", "distance")
         println(ASCIITable.getInstance().getTable(asciiTableAware))
+      } else {
+      println("No activities")
       }
-      println("ok")
     }
     else
     {
@@ -90,7 +110,7 @@ class AsciiTableParser:Parser() {
       if (!messages.isEmpty())
       {
 		    val messageList = ArrayList(messages)
-        val asciiTableAware = CollectionASCIITableAware<Message>(messageList,"message", "from", "read" ,"id")
+        val asciiTableAware = CollectionASCIITableAware<Message>(messageList,"message", "from", "id")
         println(ASCIITable.getInstance().getTable(asciiTableAware))
       } else {
 		  println("no messages for you")
@@ -110,8 +130,9 @@ class AsciiTableParser:Parser() {
         val leadersList = ArrayList(leaders)
         val asciiTableAware = CollectionASCIITableAware<Leader>(leadersList,"firstname","lastname", "email", "distance")
         println(ASCIITable.getInstance().getTable(asciiTableAware))
-      }
-      println("ok")
+      } else {
+        println("No leader board yet")
+	    }
     }
     else
     {

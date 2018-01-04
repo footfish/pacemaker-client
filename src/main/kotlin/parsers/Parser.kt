@@ -15,6 +15,10 @@ open class Parser {
   open fun renderUsers(users:Collection<User>?) {
     System.out.println(users.toString())
   }
+  open fun renderFriendUsers(users:Collection<User>?) {
+   System.out.println(users.toString())
+  }
+
   open fun renderActivity(activity:Activity?) {
     System.out.println(activity.toString())
   }

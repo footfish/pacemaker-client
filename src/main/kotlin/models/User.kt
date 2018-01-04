@@ -8,6 +8,10 @@ data class User(
     val email: String = "",
     val password: String = "",
 	  val friend: MutableList<String> = ArrayList(),
-		val id: String = UUID.randomUUID().toString())
+		val id: String = UUID.randomUUID().toString(),
+		val disabled: Boolean = false, 
+    val admin: Boolean = false
+	)
+		
 
     

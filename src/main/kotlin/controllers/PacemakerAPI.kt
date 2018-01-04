@@ -123,15 +123,17 @@ class PacemakerAPI(url:String) {
     return users
 }
 	
-	fun createFriend(id:String, email:String) {
+	fun createFriend(id:String, email:String): Boolean {
     try
     {
       val call = pacemakerInterface.createFriend(id, URLEncoder.encode(email, "UTF-8"))
-      call.execute()
+      if (call.execute().code() == 204)
+		    return true 
     }
     catch (e:Exception) {
       println(e.message)
     }
+	  return false 
   }
 
 	fun deleteFriend(id:String, email:String) {
@@ -212,15 +214,12 @@ class PacemakerAPI(url:String) {
 	  fun getUserByEmail(email:String):User? {
     var users = getUsers()
     var foundUser:User? = null
-
-  		  
     for (user in users.orEmpty())
-    {
-      if (user.email.equals(email))
       {
+      if (user.email.equals(email)) {
         foundUser = user
+        }
       }
-    }
     return foundUser
   }
 	
@@ -237,6 +236,7 @@ class PacemakerAPI(url:String) {
     }
     return user
   }
+	
   fun deleteUsers() {
     try
     {
@@ -303,7 +303,7 @@ class PacemakerAPI(url:String) {
 		val friendlist = getFriends(id)
 		  if (friendlist != null) {
 		    for (friend in friendlist){
-		      val activitieslist = getFriendActivities(id, friend.email)
+		      val activitieslist = getFriendActivities(id, friend.email) //NTS: Improve by extending REST call to support query string filter for 'type' and 'location'. 
 		          if (activitieslist != null){
 		             if (type == null && locale == null) {
 	                 leaders?.add(Leader(friend.id, friend.firstname, friend.lastname, friend.email, activitieslist.sumByDouble { it.distance.toDouble() }))
@@ -323,8 +323,5 @@ class PacemakerAPI(url:String) {
 	 return leaders
    }
 
-
-	
-		
 	
 }
