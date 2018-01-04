@@ -157,8 +157,11 @@ inner class UserConsole {     // Console for logged in user.
 	
   @Command(description = "List Friends: List all of the friends of the logged in user")
   fun listFriends() {
-	  		console.println("List of friends:")
-	      console.renderFriendUsers(paceApi.getFriends(consoleUser.id!!))
+        val friends = paceApi.getFriends(consoleUser.id!!)
+	      if (friends != null && friends.isNotEmpty()) {
+	        console.println("You have " + friends.count() + " friend(s):")
+	        }
+	      console.renderFriendUsers(friends)
   }
 
   @Command(description = "Unfollow Friends: Stop following a friend")
