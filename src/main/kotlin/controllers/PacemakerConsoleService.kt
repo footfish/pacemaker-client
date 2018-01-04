@@ -147,6 +147,7 @@ inner class UserConsole {     // Console for logged in user.
      val activity = paceApi.getActivity(consoleUser.id!!, id)
      if (activity != null)
        {
+		   console.renderActivity(activity);
        console.renderLocations(activity.route);
        } else {
 		   console.println("Activity not found")

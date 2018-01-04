@@ -13,132 +13,79 @@ import models.Leader
 class AsciiTableParser:Parser() {
 	
   override fun renderUser(user:User?) {
-    if (user != null)
-    {
+    if (user != null) {
       renderUsers(Arrays.asList(user))
       println("ok")
-    }
-    else
-    {
+    } else {
       println("Strange! User not found")
     }
   }
-  override fun renderUsers(users:Collection<User>?) {
-    if (users != null)
-    {
-      if (!users.isEmpty())
-      {
+
+	override fun renderUsers(users:Collection<User>?) {
+    if (users != null && !users.isEmpty())  {
         val userList = ArrayList<User>(users)
         val asciiTableAware = CollectionASCIITableAware<User>(userList, "id","firstname","lastname", "email", "disabled", "admin")
         println(ASCIITable.getInstance().getTable(asciiTableAware))
-      } else {
-        println("No users")
-	    }
-    }
-    else
-    {
-      println("Strange! - User not found")
+    } else {
+        println("No users found")
     }
   }
 	
-	  override fun renderFriendUsers(users:Collection<User>?) {
-    if (users != null)
-    {
-      if (!users.isEmpty())
-      {
-        val userList = ArrayList<User>(users)
-        val asciiTableAware = CollectionASCIITableAware<User>(userList,"firstname","lastname", "email" )
-        println(ASCIITable.getInstance().getTable(asciiTableAware))
-      } else {
-        println("No friends (yet!)")
-      }
-    }
-    else
-    {
-      println("Strange! - User not found")
+	override fun renderFriendUsers(users:Collection<User>?) {
+    if (users != null && !users.isEmpty())  {
+       val userList = ArrayList<User>(users)
+       val asciiTableAware = CollectionASCIITableAware<User>(userList,"firstname","lastname", "email" )
+       println(ASCIITable.getInstance().getTable(asciiTableAware))
+    } else  {
+       println("No friends (yet!)")
     }
   }
 	
   override fun renderActivity(activity:Activity?) {
-    if (activity != null)
-    {
+    if (activity != null) {
       renderActivities(Arrays.asList(activity))
-    }
-    else
-    {
+    } else {
       println("not found")
     }
   }
 	
   override fun renderActivities(activities:Collection<Activity>?) {
-    if (activities != null)
-    {
-      if (!activities.isEmpty())
-      {
-		    val activityList = ArrayList(activities)
-        val asciiTableAware = CollectionASCIITableAware<Activity>(activityList,"id","type", "location", "distance")
-        println(ASCIITable.getInstance().getTable(asciiTableAware))
-      } else {
-      println("No activities")
-      }
-    }
-    else
-    {
-      println("not found")
+    if (activities != null && !activities.isEmpty()) {
+      val activityList = ArrayList(activities)
+      val asciiTableAware = CollectionASCIITableAware<Activity>(activityList,"id","type", "location", "distance")
+      println(ASCIITable.getInstance().getTable(asciiTableAware))
+    } else {
+		  println("No activities")
     }
   }
 	
   override fun renderLocations(locations:List<Location>?) {
-    if (locations != null)
-    {
-      if (!locations.isEmpty())
-      {
-        val asciiTableAware = CollectionASCIITableAware<Location>(locations,"latitude", "longitude")
-        println(ASCIITable.getInstance().getTable(asciiTableAware))
-      }
-      println("ok")
-    }
-    else
-    {
+    if (locations != null && !locations.isEmpty()) {
+      val asciiTableAware = CollectionASCIITableAware<Location>(locations,"latitude", "longitude")
+      println(ASCIITable.getInstance().getTable(asciiTableAware))
+    } else {
       println("no locations found")
     }
   }
 	
 	  override fun renderMessages(messages:Collection<Message>?) {
-    if (messages != null)
-    {
-      if (!messages.isEmpty())
-      {
-		    val messageList = ArrayList(messages)
-        val asciiTableAware = CollectionASCIITableAware<Message>(messageList,"message", "from", "id")
-        println(ASCIITable.getInstance().getTable(asciiTableAware))
-      } else {
-		  println("no messages for you")
-			}
-    }
-    else
-    {
-      println("not found")
+    if (messages != null && !messages.isEmpty()) {
+	    val messageList = ArrayList(messages)
+      val asciiTableAware = CollectionASCIITableAware<Message>(messageList,"message", "from", "id")
+      println(ASCIITable.getInstance().getTable(asciiTableAware))
+    } else {
+      println("no messages for you")
     }
   }
 	
   override fun renderLeaders(leaders:Collection<Leader>?) {
-    if (leaders != null)
-    {
-      if (!leaders.isEmpty())
-      {
-        val leadersList = ArrayList(leaders)
-        val asciiTableAware = CollectionASCIITableAware<Leader>(leadersList,"firstname","lastname", "email", "distance")
-        println(ASCIITable.getInstance().getTable(asciiTableAware))
-      } else {
-        println("No leader board yet")
-	    }
-    }
-    else
-    {
-      println("not found")
+    if (leaders != null && !leaders.isEmpty()) {
+      val leadersList = ArrayList(leaders)
+      val asciiTableAware = CollectionASCIITableAware<Leader>(leadersList,"firstname","lastname", "email", "distance")
+      println(ASCIITable.getInstance().getTable(asciiTableAware))
+    } else {
+      println("No leader board yet")
     }
   }	
-	
 	
 }
