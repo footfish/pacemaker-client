@@ -136,15 +136,18 @@ class PacemakerAPI(url:String) {
 	  return false 
   }
 
-	fun deleteFriend(id:String, email:String) {
+	fun deleteFriend(id:String, email:String):Boolean {
     try
     {
       val call = pacemakerInterface.deleteFriend(id, URLEncoder.encode(email, "UTF-8"))
-      call.execute()
+      if(call.execute().code() == 204) {
+		  return true
+			}
     }
     catch (e:Exception) {
       println(e.message)
     }
+		return false
   }
 	
   fun getFriendActivities(id:String, email: String):Collection<Activity>? {

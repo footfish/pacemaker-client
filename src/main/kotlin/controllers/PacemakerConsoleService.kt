@@ -163,8 +163,11 @@ inner class UserConsole {     // Console for logged in user.
 
   @Command(description = "Unfollow Friends: Stop following a friend")
   fun unfollowFriend(@Param(name = "email") email:String) {
-      paceApi.deleteFriend(consoleUser.id!!, email)
-		  console.renderUsers(paceApi.getFriends(consoleUser.id!!))
+      if(paceApi.deleteFriend(consoleUser.id!!, email)) {
+	  		console.println("No longer following " + email)
+			} else {
+	  		console.println("Error: Not a friend of " + email)
+			}
 		}
 	
   @Command(description = "Friend Activity Report: List all activities of specific friend, sorted alphabetically by type)")
