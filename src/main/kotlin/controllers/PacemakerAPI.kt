@@ -210,7 +210,7 @@ class PacemakerAPI(url:String) {
     try
     {
       val call = pacemakerInterface.addLocation(id, activityId, Location(latitude, longitude))
-      if (call.execute().code() == 204) {
+      if (call.execute().code() == 200) {
         return true
 			  }
 		  
