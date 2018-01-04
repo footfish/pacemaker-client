@@ -192,26 +192,33 @@ class PacemakerAPI(url:String) {
     return activity
   }
 	
-  fun deleteActivities(id:String) {
+  fun deleteActivities(id:String):Boolean {
     try
     {
       val call = pacemakerInterface.deleteActivities(id)
-      call.execute()
+      if (call.execute().code() == 204) {
+		  return true 
+			}
     }
     catch (e:Exception) {
       println(e.message)
     }
+	  return false 
   }
 	
-  fun addLocation(id:String, activityId:String, latitude:Double, longitude:Double) {
+  fun addLocation(id:String, activityId:String, latitude:Double, longitude:Double): Boolean {
     try
     {
       val call = pacemakerInterface.addLocation(id, activityId, Location(latitude, longitude))
-      call.execute()
+      if (call.execute().code() == 204) {
+        return true
+			  }
+		  
     }
     catch (e:Exception) {
       println(e.message)
     }
+	  return false 
   }
 
 	  fun getUserByEmail(email:String):User? {
@@ -265,15 +272,18 @@ class PacemakerAPI(url:String) {
     return user
   }
 	
-	fun sendMessage(id:String, email:String, message: String) {
+	fun sendMessage(id:String, email:String, message: String): Boolean{
     try
     {
      val call = pacemakerInterface.sendMessage(id, URLEncoder.encode(email, "UTF-8"), Message(message, id))
-     call.execute()
+     if (call.execute().code() == 204) {
+       return true
+		 }
     }
     catch (e:Exception) {
       println(e.message)
     }
+		return false 
 	}
 	
 	fun getMessages(id:String):Collection<Message>? {
@@ -290,15 +300,18 @@ class PacemakerAPI(url:String) {
 		return messages
 	}
 	
-	fun broadcastMessage(id:String, message: String) {
+	fun broadcastMessage(id:String, message: String): Boolean {
     try
     {
      val call = pacemakerInterface.broadcastMessage(id, Message(message, id))
-     call.execute()
+     if(call.execute().code() == 204){
+       return true 
+     }
     }
     catch (e:Exception) {
       println(e.message)
     }
+		return false
 	}
 	
 	fun getLeaderBoard(id:String, type: String?=null, locale: String?=null):Collection<Leader>? {

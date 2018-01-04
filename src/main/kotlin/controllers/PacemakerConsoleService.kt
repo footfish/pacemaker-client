@@ -83,7 +83,12 @@ inner class AdminConsole {     // Console for logged in admin.
   fun registerUser(@Param(name = "first name") firstName:String,
                @Param(name = "last name") lastName:String, @Param(name = "email") email:String,
                @Param(name = "password") password:String) {
-    console.renderUser(paceApi.createUser(firstName, lastName, email, password))
+	  if (paceApi.createUser(firstName, lastName, email, password) != null) {
+		  console.println("added user $email")
+			} else {
+		  console.println("Error: user $email not added")
+			}
+    
   }
 }	
 	
@@ -113,12 +118,15 @@ inner class UserConsole {     // Console for logged in user.
       val activity = paceApi.getActivity(consoleUser.id!!, id)
       if (activity !=  null)
       {
-        paceApi.addLocation(consoleUser.id!!, activity.id, latitude, longitude)
-        console.println("ok")
+        if(paceApi.addLocation(consoleUser.id!!, activity.id, latitude, longitude)) {
+          console.println("Location $latitude, $longitude added")
+        } else {
+          console.println("Error: Could not add location")
+        }
       }
       else
       {
-        console.println("not found")
+        console.println("Error: Activity not found")
       }
   }
 	
@@ -181,7 +189,12 @@ inner class UserConsole {     // Console for logged in user.
   @Command(description = "Message Friend: send a message to a friend")
   fun messageFriend(@Param(name = "email") email:String,
                     @Param(name = "message") message:String) {
-      paceApi.sendMessage(consoleUser.id!!, email, message)
+      if(paceApi.sendMessage(consoleUser.id!!, email, message)){
+          console.println("Message sent")
+			} else {
+  			  console.println("Message not sent (is $email a friend ?)")
+			}
+
   }	  
 
   @Command(description = "List Messages: List all messages for the logged in user")
@@ -191,7 +204,11 @@ inner class UserConsole {     // Console for logged in user.
 	
   @Command(description = "Message All Friends: send a message to all friends")
   fun messageAllFriends(@Param(name = "message") message:String) {
-      paceApi.broadcastMessage(consoleUser.id!!, message)
+      if(paceApi.broadcastMessage(consoleUser.id!!, message)) {
+        console.println("Message sent")
+			} else {
+			  console.println("Message not sent (have you got friends ?)")
+			}
 		}
 	
 	@Command(description = "Distance Leader Board: list summary distances of all friends, sorted longest to shortest")
