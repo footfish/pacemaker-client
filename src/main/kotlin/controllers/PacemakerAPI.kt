@@ -235,7 +235,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
   fun getUser(id:String):User? {
     var user:User? = null
     try  {
-      user = pacemakerInterface.getUsers(id = URLEncoder.encode(id,"UTF-8")).execute().body()?.first()
+      user = pacemakerInterface.getUsers(id = id).execute().body()?.first()
     }
     catch (e:Exception) {
       println(e.message)
