@@ -20,7 +20,7 @@ import java.net.URLEncoder
 
 internal interface PacemakerInterface {
   @GET("/users")
-  fun getUsers():Call<List<User>>
+  fun getUsers(@Query("id") id:String? = null,@Query("email") email:String? = null):Call<List<User>>
   @DELETE("/users")
   fun deleteUsers():Call<String>
   @DELETE("/users/{id}")
@@ -56,7 +56,7 @@ internal interface PacemakerInterface {
   fun broadcastMessage(@Path("id") id:String, @Body message:Message):Call<String>
 }
 
-class PacemakerAPI(url:String) {
+class PacemakerAPI(url:String="http://localhost:7000") {
   internal var pacemakerInterface:PacemakerInterface
 	
   init{
@@ -221,25 +221,21 @@ class PacemakerAPI(url:String) {
 	  return false 
   }
 
-	  fun getUserByEmail(email:String):User? {
-    var users = getUsers()
-    var foundUser:User? = null
-    for (user in users.orEmpty())
-      {
-      if (user.email.equals(email)) {
-        foundUser = user
-        }
-      }
-    return foundUser
-  }
+  fun getUserByEmail(email:String):User? {
+    var user:User? = null
+	    try {
+	      user = pacemakerInterface.getUsers(email = URLEncoder.encode(email,"UTF-8")).execute().body()?.first()
+	    }
+	      catch (e:Exception) {
+	        println(e.message)
+	      }
+    return user
+   }
 	
   fun getUser(id:String):User? {
     var user:User? = null
-    try
-    {
-      val call = pacemakerInterface.getUser(id)
-      val response = call.execute()
-      user = response.body()
+    try  {
+      user = pacemakerInterface.getUsers(id = URLEncoder.encode(id,"UTF-8")).execute().body()?.first()
     }
     catch (e:Exception) {
       println(e.message)

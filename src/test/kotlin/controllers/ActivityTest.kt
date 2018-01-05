@@ -31,22 +31,22 @@ class ActivityTest {
 		assertEquals(activity.distance, returnedActivity?.distance)
     assertNotNull(returnedActivity?.id)
   }
-/*	
-  @Test
+
+	@Test
   fun testGetActivity() {
-    val activity = Activity("run", "fridge", 0.5)
+    val activity = Activity("run", "fridge", 0.5f)
     val returnedActivity1 = pacemaker.createActivity(homer.id, activity.type, activity.location, activity.distance)
-    val returnedActivity2 = pacemaker.getActivity(homer.id, returnedActivity1.id)
+    val returnedActivity2 = pacemaker.getActivity(homer.id, returnedActivity1!!.id)
     assertEquals(returnedActivity1, returnedActivity2)
   }
+ 
   @Test
   fun testDeleteActivity() {
-    val activity = Activity("sprint", "pub", 4.5)
-    val returnedActivity = pacemaker.createActivity(homer.id, activity.type, activity.location, activity.distance)
+    val activity = Activity("sprint", "pub", 4.5f)
+    var returnedActivity = pacemaker.createActivity(homer.id, activity.type, activity.location, activity.distance)
     assertNotNull(returnedActivity)
     pacemaker.deleteActivities(homer.id)
-    returnedActivity = pacemaker.getActivity(homer.id, returnedActivity.id)
+    returnedActivity = pacemaker.getActivity(homer.id, returnedActivity!!.id)
     assertNull(returnedActivity)
   }
- */
 }
