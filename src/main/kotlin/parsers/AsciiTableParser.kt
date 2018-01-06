@@ -24,7 +24,7 @@ class AsciiTableParser:Parser() {
 	override fun renderUsers(users:Collection<User>?) {
     if (users != null && !users.isEmpty())  {
         val userList = ArrayList<User>(users)
-        val asciiTableAware = CollectionASCIITableAware<User>(userList, "id","firstname","lastname", "email", "disabled", "admin")
+        val asciiTableAware = CollectionASCIITableAware<User>(userList, "id","firstname","lastname", "email", "password", "disabled", "admin")
         println(ASCIITable.getInstance().getTable(asciiTableAware))
     } else {
         println("No users found")

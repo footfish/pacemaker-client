@@ -14,6 +14,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.net.URLEncoder
@@ -24,9 +25,11 @@ internal interface PacemakerInterface {
   @DELETE("/users")
   fun deleteUsers():Call<String>
   @DELETE("/users/{id}")
-  fun deleteUser(@Path("id") id:String):Call<User>
+  fun deleteUser(@Path("id") id:String):Call<String>
   @GET("/users/{id}")
   fun getUser(@Path("id") id:String):Call<User>
+  @PUT("/users/{id}")
+  fun updateUser(@Path("id") id:String, @Body User:User):Call<User>
   @POST("/users")
   fun registerUser(@Body User:User):Call<User>
   @GET("/users/{id}/activities")
@@ -79,7 +82,22 @@ class PacemakerAPI(url:String="http://localhost:7000") {
   }
   return users
 }
+
+  fun updateUser(id: String, firstName:String, lastName:String, email:String, password:String, disabled:Boolean, admin:Boolean):User? {
+    var returnedUser:User? = null
+    try
+    {
+      val call = pacemakerInterface.updateUser(id, User(firstname=firstName, lastname=lastName, email=email, password=password,disabled=disabled,admin=admin))
+      val response = call.execute()
+      returnedUser = response.body()
+    }
+    catch (e:Exception) {
+      println("Oops something bad happened, this message may help -> " + e.message)
+    }
+    return returnedUser
+  }
 	
+		
   fun createUser(firstName:String, lastName:String, email:String, password:String):User? {
     var returnedUser:User? = null
     try
@@ -267,18 +285,18 @@ class PacemakerAPI(url:String="http://localhost:7000") {
 	  return false 
   }
 	
-  fun deleteUser(id:String):User? {
-    var user:User? = null
+  fun deleteUser(id:String):Boolean {
     try
     {
       val call = pacemakerInterface.deleteUser(id)
-      val response = call.execute()
-      user = response.body()
+      if (call.execute().code() == 204) {
+        return true
+	 	  }
     }
     catch (e:Exception) {
       println("Oops something bad happened, this message may help -> " + e.message)
     }
-    return user
+    return false
   }
 	
 	fun sendMessage(id:String, email:String, message: String): Boolean{

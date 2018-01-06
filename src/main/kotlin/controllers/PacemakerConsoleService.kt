@@ -52,7 +52,7 @@ private	object consoleUser {
     val user = paceApi.getUserByEmail(email)
     if (user != null)
     {
-      if (user.password.equals(password) && user.admin)
+      if (user.password.equals(password) && user.admin && !user.disabled)
       {
         consoleUser.id = user.id 
 		    ShellFactory.createSubshell(user.email, myShell, "Welcome Administrator " + user.firstname +", ?list for commands, type 'exit' to logout", AdminConsole()).commandLoop()
@@ -79,6 +79,85 @@ inner class AdminConsole {     // Console for logged in admin.
     console.renderUsers(paceApi.getUsers())
   }
 	
+	@Command(description = "Delete User: Delete a user ")
+  fun DeleteUser(@Param(name = "id") id:String) {
+		if (paceApi.deleteUser(id) ) {
+		  console.println("deleted user with id $id")
+		} else {
+			console.println("Could not find user with id $id")
+		}
+  }
+
+	@Command(description = "Block User: Block login for a user ")
+  fun blockUser(@Param(name = "id") id:String) {
+		var user = paceApi.getUser(id)
+		if (user != null) {
+		  if ( paceApi.updateUser(id, user.firstname, user.lastname, user.email, user.password, true, user.admin) != null) {
+		    console.println("Blocked user with id $id")
+		  } else {
+		    console.println("Failed to update user with id $id")
+		  }
+		} else {
+		  console.println("Could not find user with id $id")
+		}
+  }
+	
+ @Command(description = "Unblock User: Unblock login for a user ")
+  fun unblockUser(@Param(name = "id") id:String) {
+		var user = paceApi.getUser(id)
+		if (user != null) {
+		  if ( paceApi.updateUser(id, user.firstname, user.lastname, user.email, user.password, false, user.admin) != null) {
+		    console.println("Unblocked user with id $id")
+		  } else {
+		    console.println("Failed to update user with id $id")
+		  }
+		} else {
+		  console.println("Could not find user with id $id")
+		}
+  }
+
+ @Command(description = "Make Admin: Make the user an Administrator")
+  fun makeAdmin(@Param(name = "id") id:String) {
+		var user = paceApi.getUser(id)
+		if (user != null) {
+		  if ( paceApi.updateUser(id, user.firstname, user.lastname, user.email, user.password, user.disabled, true) != null) {
+		    console.println("User with id $id made Administrator")
+		  } else {
+		    console.println("Failed to update user with id $id")
+		  }
+		} else {
+		  console.println("Could not find user with id $id")
+		}
+  }
+	
+ @Command(description = "Remove Admin: Remove any user Administrator privilages")
+  fun removeAdmin(@Param(name = "id") id:String) {
+		var user = paceApi.getUser(id)
+		if (user != null) {
+		  if ( paceApi.updateUser(id, user.firstname, user.lastname, user.email, user.password, user.disabled, false) != null) {
+		    console.println("User with id $id is set to be a regular user")
+		  } else {
+		    console.println("Failed to update user with id $id")
+		  }
+		} else {
+		  console.println("Could not find user with id $id")
+		}
+  }			
+	
+ @Command(description = "Set Password: Set the password for a user")
+  fun setPass(@Param(name = "id") id:String, @Param(name = "password") password:String) {
+		var user = paceApi.getUser(id)
+		if (user != null) {
+		  if ( paceApi.updateUser(id, user.firstname, user.lastname, user.email, password, user.disabled, user.admin) != null) {
+		    console.println("Set new password to $password for User with id $id")
+		  } else {
+		    console.println("Failed to update user with id $id")
+		  }
+		} else {
+		  console.println("Could not find user with id $id")
+		}
+  }		
+		
   @Command(description = "Register-user: Create an account for a new user")
   fun registerUser(@Param(name = "first name") firstName:String,
                @Param(name = "last name") lastName:String, @Param(name = "email") email:String,

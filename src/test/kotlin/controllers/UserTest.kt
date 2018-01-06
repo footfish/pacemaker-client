@@ -48,9 +48,8 @@ class UserTest {
     val user = pacemaker.createUser(homer.firstname, homer.lastname, homer.email, homer.password)
 		pacemaker.deleteUser(user?.id!!)
 		assertNull(pacemaker.getUser(user.id))
-		//NTS - should check friend delete
-		assertNull(pacemaker.deleteUser("X")) //delete invalid user
-		assertNull(badPacemaker.deleteUser("X")) //delete server unavailable 
+		assertFalse {pacemaker.deleteUser("X")} //delete invalid user
+		assertFalse {badPacemaker.deleteUser("X")} //delete server unavailable 
 	}
   
 	@Test
