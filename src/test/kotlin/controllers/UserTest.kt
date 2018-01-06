@@ -44,6 +44,23 @@ class UserTest {
   }
 	
 	@Test
+  fun testUpdateUser() {
+    val user = pacemaker.createUser(homer.firstname, homer.lastname, homer.email, homer.password)
+		val updatedUser = pacemaker.updateUser(user?.id!!, "firstname", "lastname", "email", "password", false, false )
+		
+		assertEquals(updatedUser?.firstname, "firstname")
+		assertEquals(updatedUser?.lastname, "lastname")
+		assertEquals(updatedUser?.email, "email")
+		assertEquals(updatedUser?.password, "password")
+		assertFalse {updatedUser?.disabled!!}
+		assertFalse {updatedUser?.admin!!}
+		
+		assertNull(badPacemaker.updateUser("X","X", "X", "X", "X", false, false)) //update server unavailable 
+  }
+	
+	
+	
+	@Test
   fun testDeleteUser() {
     val user = pacemaker.createUser(homer.firstname, homer.lastname, homer.email, homer.password)
 		pacemaker.deleteUser(user?.id!!)

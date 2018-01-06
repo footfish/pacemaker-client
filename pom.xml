@@ -110,7 +110,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>controllers.MainKt</mainClass>
+              <mainClass>controllers.ClientMainKt</mainClass>
             </manifest>
           </archive>
         </configuration>
