@@ -128,6 +128,12 @@
       <scope>test</scope>
     </dependency>
 <dependency>
+    <groupId>org.jetbrains.kotlin</groupId>
+    <artifactId>kotlin-test-junit</artifactId>
+    <version>1.1.2-2</version>
+    <scope>test</scope>
+</dependency>    
+<dependency>
     <groupId>com.googlecode.clichemaven</groupId>
     <artifactId>cliche</artifactId>
     <version>110413</version>

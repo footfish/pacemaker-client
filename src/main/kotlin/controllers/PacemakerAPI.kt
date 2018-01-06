@@ -75,7 +75,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
     users = response.body()
   }
   catch (e:Exception) {
-    println(e.message)
+    println("Oops something bad happened, this message may help -> " + e.message)
   }
   return users
 }
@@ -89,7 +89,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
       returnedUser = response.body()
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
     return returnedUser
   }
@@ -103,7 +103,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
       returnedActivity = response.body()
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
     return returnedActivity
   }
@@ -118,7 +118,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
 	        users = response.body()
         }
         catch (e:Exception) {
-        println(e.message)
+        println("Oops something bad happened, this message may help -> " + e.message)
         }
     return users
 }
@@ -131,7 +131,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
 		    return true 
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
 	  return false 
   }
@@ -145,7 +145,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
 			}
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
 		return false
   }
@@ -159,7 +159,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
       activities = response.body()
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
     return activities
   }
@@ -173,7 +173,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
       activities = response.body()
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
     return activities
   }
@@ -187,7 +187,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
       activity = response.body()
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
     return activity
   }
@@ -201,7 +201,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
 			}
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
 	  return false 
   }
@@ -216,7 +216,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
 		  
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
 	  return false 
   }
@@ -224,10 +224,15 @@ class PacemakerAPI(url:String="http://localhost:7000") {
   fun getUserByEmail(email:String):User? {
     var user:User? = null
 	    try {
-	      user = pacemakerInterface.getUsers(email = URLEncoder.encode(email,"UTF-8")).execute().body()?.first()
+			  val call = pacemakerInterface.getUsers(email = URLEncoder.encode(email,"UTF-8"))
+			  val response = call.execute()
+			  val userList = response.body()
+			  if ( userList != null && userList.isNotEmpty()) {
+			    	      user = userList.first()
+					} 
 	    }
 	      catch (e:Exception) {
-	        println(e.message)
+	        println("Oops something bad happened, this message may help -> " + e.message)
 	      }
     return user
    }
@@ -235,23 +240,31 @@ class PacemakerAPI(url:String="http://localhost:7000") {
   fun getUser(id:String):User? {
     var user:User? = null
     try  {
-      user = pacemakerInterface.getUsers(id = id).execute().body()?.first()
+		  val call = pacemakerInterface.getUsers(id = id)
+		  val response = call.execute()
+		  val userList = response.body()
+			  if ( userList != null && userList.isNotEmpty()) {
+			    	      user = userList.first()
+					} 
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
     return user
   }
 	
-  fun deleteUsers() {
+  fun deleteUsers():Boolean {
     try
     {
       val call = pacemakerInterface.deleteUsers()
-      call.execute()
+      if (call.execute().code() == 204) {
+        return true
+			}
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
+	  return false 
   }
 	
   fun deleteUser(id:String):User? {
@@ -263,7 +276,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
       user = response.body()
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
     return user
   }
@@ -277,7 +290,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
 		 }
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
 		return false 
 	}
@@ -291,7 +304,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
      messages = response.body()
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
 		return messages
 	}
@@ -305,7 +318,7 @@ class PacemakerAPI(url:String="http://localhost:7000") {
      }
     }
     catch (e:Exception) {
-      println(e.message)
+      println("Oops something bad happened, this message may help -> " + e.message)
     }
 		return false
 	}
